@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inserisci Punteggio</title>
+</head>
+<body>
+  <h1>Inserisci il Punteggio della Partita</h1>
+  
+  <form id="punteggioForm">
+    <label for="squadra1">Nome Squadra 1:</label>
+    <input type="text" id="squadra1" name="squadra1" required><br>
+
+    <label for="squadra2">Nome Squadra 2:</label>
+    <input type="text" id="squadra2" name="squadra2" required><br>
+
+    <label for="punteggio">Punteggio (1 per vittoria, 0 per assenza):</label>
+    <input type="number" id="punteggio" name="punteggio" min="0" max="1" required><br>
+
+    <label for="data">Data della partita:</label>
+    <input type="date" id="data" name="data" required><br>
+
+    <button type="submit">Invia</button>
+  </form>
+
+  <script>
+    document.getElementById('punteggioForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const squadra1 = document.getElementById('squadra1').value;
+      const squadra2 = document.getElementById('squadra2').value;
+      const punteggio = document.getElementById('punteggio').value;
+      const data = document.getElementById('data').value;
+
+      const response = await fetch('http://localhost:3000/inserisci-punteggio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ squadra1, squadra2, punteggio: parseInt(punteggio), data })
+      });
+
+      if (response.ok) {
+        alert('Punteggio inserito con successo!');
+      } else {
+        alert('Errore nell\'inserimento del punteggio');
+      }
+    });
+  </script>
+</body>
+</html>
